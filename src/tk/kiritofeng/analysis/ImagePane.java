@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ImagePane extends JFrame {
+public class ImagePane extends JPanel {
 
     private BufferedImage img;
 
