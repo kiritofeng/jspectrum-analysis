@@ -76,10 +76,11 @@ public class GUI extends JFrame {
     public TreeMap<Double, Double> analyse() {
         BufferedImage toAnalyze = img.getImg();
         ArrayList<Point> points = new ArrayList<>();
-        for(int i = 0; i < img.getHeight(); ++i) {
-            for(int j = 0; j < img.getWidth(); ++j) {
+        for(int i = 0; i < toAnalyze.getWidth(); ++i) {
+            for(int j = 0; j < toAnalyze.getHeight(); ++j) {
                 int rgb = toAnalyze.getRGB(i, j);
                 if(Utils.isSimilar(new Color(rgb), col, tol)) {
+                //if(Utils.isRed(new Color(rgb))) {
                     points.add(new Point(i,j));
                 }
             }
@@ -123,7 +124,8 @@ public class GUI extends JFrame {
 
         public void actionPerformed(ActionEvent ae) {
             if(ae.getSource() == colButton) {
-                JColorChooser.showDialog(null, "Choose Source Colour", col);
+                Color C = JColorChooser.showDialog(null, "Choose Source Colour", col);
+                if(C != null) col = C;
             } else if(ae.getSource() == fileButton) {
                 JFileChooser inputFile = new JFileChooser();
                 inputFile.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -133,16 +135,22 @@ public class GUI extends JFrame {
                     img.setImg(Utils.openImage(inputFile.getSelectedFile()));
                 }
             } else if(ae.getSource() == start) {
+                analyse();
                 JFileChooser outputFile = new JFileChooser();
                 outputFile.setDialogType(JFileChooser.SAVE_DIALOG);
                 outputFile.setDialogTitle("Save As...");
                 outputFile.setFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
                 if(outputFile.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File F = outputFile.getSelectedFile();
+                    if(!F.getAbsolutePath().endsWith(".txt")){
+                        F = new File(F + ".txt");
+                    }
                     try {
                         printOutput(F, analyse());
                     } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                } else {
                 }
             }
         }

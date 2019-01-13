@@ -16,7 +16,9 @@ public class Utils {
 
     public static double getIntensity(Color c1) {
         // TODO: use actual method
-        return (c1.getRed() + c1.getGreen() + c1.getBlue()) / 3.0;
+        float[]hsv = new float[3];
+        Color.RGBtoHSB(c1.getRed(),c1.getGreen(),c1.getBlue(),hsv);
+        return hsv[2];
     }
 
     public static BufferedImage openImage(File F) {
@@ -26,6 +28,10 @@ public class Utils {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public static boolean isRed(Color C) {
+        return C.getRed() > 60;
     }
 
 }
