@@ -22,8 +22,6 @@ public class GUI extends JFrame {
     JButton colButton, fileButton, start;
     JSlider tolSlider;
     JTextField tolDisplay;
-    ActionListener btnlistener;
-    TolListener tollistener;
     Color col;
     int tol;
 
@@ -67,8 +65,8 @@ public class GUI extends JFrame {
     }
 
     private void addActionListeners() {
-        btnlistener = new BtnListener();
-        tollistener = new TolListener();
+        ActionListener btnlistener = new BtnListener();
+        TolListener tollistener = new TolListener();
         colButton.addActionListener(btnlistener);
         fileButton.addActionListener(btnlistener);
         start.addActionListener(btnlistener);
@@ -110,6 +108,7 @@ public class GUI extends JFrame {
     }
 
     public void printOutput(File F, TreeMap<Double, Double> data) throws IOException {
+        if(data.isEmpty()) return;
         double first = data.firstKey();
         FileWriter fw = new FileWriter(F);
         PrintWriter pw = new PrintWriter(fw);
